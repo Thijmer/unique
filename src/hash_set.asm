@@ -104,9 +104,7 @@ hs_contains:
     call index_of ; Determine index of string in hash table.
 
     ; Store address of corresponding hash table entry in r9.
-    mov r9, rax ; offset = index * 8 (bc a pointer is 8 bits wide)
-    shl r9, 3 ; `<< 3` is the same as `* 8` but faster.
-    add r9, global_hash_set + HashSet.table
+    lea r9, [global_hash_set + HashSet.table + (rax * 8)] ; start of table + index * 8 because a pointer is 8 bytes wide.
     mov rdx, r9 ; Store this location in rdx.
 
 .loop:
@@ -118,8 +116,7 @@ hs_contains:
     ; Look whether the node contains the string we're looking for.
     mov qword [rbp - 8], r9 ; Backup r9
     mov rdi, qword [rbp - 16] ; Retrieve string location from stack.
-    mov rsi, r9 ; Store pointer to the text in the node in rsi.
-    add rsi, EntryNode.val
+    lea rsi, [r9 + EntryNode.val] ; Store pointer to the text in the node in rsi.
     call streq ; Call streq to check string equality.
     mov r9, qword [rbp - 8] ; Restore r9
 
@@ -175,7 +172,7 @@ hs_insert:
     mov [rbp - 24], rax ; Also put a copy on the stack, for use with strncpy.
 
     ; Init new node step 2: Allocate memory
-    add rdi, EntryNode%+_size ; Add size needed for other stuff in the node (including the terminating null).
+    add rdi, EntryNode_size ; Add size needed for other stuff in the node (including the terminating null).
     call malloc ; Allocate the actual memory
 
     ; Init new node step 3: Initialize values

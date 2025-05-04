@@ -33,8 +33,8 @@ heap_initialize:
     syscall ; Syscall. Now, rax holds the current break.
 
     ; Initialize the global vars that keep track of heap usage.
-    mov [heap_data.curr_prgbrk], qword rax
-    mov [heap_data.usg_top], qword rax
+    mov qword [heap_data.curr_prgbrk], rax
+    mov qword [heap_data.usg_top], rax
     ret
     
 ; Allocate memory on the heap
