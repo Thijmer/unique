@@ -1,0 +1,40 @@
+; ---------------------------------------------------------------------------------
+; Written by: Thijmen Voskuilen
+;
+; This file:
+;  - Contains some constants that alter how the program behaves.
+;  - Its mostly buffer sizes.
+; ---------------------------------------------------------------------------------
+
+%include "src/os_consts.mac"
+
+; Exit codes
+%define EXIT_OK     0
+%define EXIT_ERR    1
+%define EXIT_MEM    2
+
+; Memory allocation settings
+%define progbrk_increment_pwr 13 ; Increment the program break in steps of 8kb.
+                              ; This is n in progbrk_increment = 2^n
+                              ; The reason for this always being a power of
+                              ; 2 is because it makes modulo and division
+                              ; very cheap.
+
+; Hash table settings
+%define table_capacity_pwr 11 ; The amount of entries in the hash table.
+                              ; This is n in table_capacity = 2^n
+                              ; The reason for this always being a power of
+                              ; 2 is because it makes modulo and division
+                              ; very cheap.
+
+; Read buffer size
+; Higher values will reduce the number of syscalls necessary for large inputs, but
+; will also require more moving of data and memory.
+%define read_bufsize 1024
+
+; File open flags
+%define FLAGS_READ  O_RDONLY
+%define FLAGS_WRITE O_WRONLY | O_CREAT
+
+; File creation modes
+%define MODE_CREATE S_IRUSR | S_IWUSR | S_IRGRP

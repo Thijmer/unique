@@ -1,0 +1,12 @@
+Usage: unique [INPUT FILE] [OUTPUT FILE]
+Filter out duplicate lines from the input, printing only the first occurence of each line.
+
+With no output file, output is written to standard output.
+With no input file, input is taken from standard input.
+
+Examples:
+  unique                Reads lines from standard input until an EOF, printing every line the first time it occurs.
+  unique a.txt          Reads lines from a.txt, printing out unique lines in the order in which they first occur.
+  unique a.txt b.txt    Reads lines from a.txt, writing out unique lines to b.txt in the order in which they first occur.
+
+Written by Thijmen Voskuilen
